@@ -33,8 +33,11 @@ def main():
             codice_cabina = input("Codice cabina: ")
             codice_passeggero = input("Codice passeggero: ")
             try:
-                crociera.assegna_passeggero_a_cabina(codice_cabina, codice_passeggero)
+                checkFlag = crociera.assegna_passeggero_a_cabina(codice_cabina, codice_passeggero)
                 print("Cabina assegnata con successo.")
+
+                if not checkFlag:
+                    raise Exception("Cabina o passeggero non trovato.")
             except Exception as e:
                 print(f"Errore: {e}")
 
@@ -42,7 +45,8 @@ def main():
             cabine_ordinate = crociera.cabine_ordinate_per_prezzo()
             print("\n--- Cabine ordinate per prezzo ---")
             for c in cabine_ordinate:
-                print(c)
+                if c.disponibilita == 'Disponibile' :
+                    print(c.__repr__())
 
         elif scelta == "5":
             print("\n--- Elenco passeggeri ---")

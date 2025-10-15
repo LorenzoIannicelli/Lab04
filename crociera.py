@@ -8,8 +8,9 @@ class Crociera:
     def __init__(self, nome):
         """Inizializza gli attributi e le strutture dati"""
         self._nome = nome
-        self._passeggeri = []
-        self._cabine = []
+        self.passeggeri = []
+        self.cabine = []
+        self.prenotazioni = []
 
     """Aggiungere setter e getter se necessari"""
     @property
@@ -27,30 +28,56 @@ class Crociera:
             reader = csv.reader(infile)
             for line in reader:
                 if line[0][:-1] == "P":
-                    passeggero = Passeggero(dato for dato in line)
-                    self._passeggeri.append(passeggero)
+                    codId, nome, cognome = line
+                    passeggero = Passeggero(codId, nome, cognome)
+                    self.passeggeri.append(passeggero)
                 elif line[0][:-1] == "CAB":
                     if len(line) == 5:
                         if line[-1].isdigit():
-                            cabina = Animali(dato for dato in line)
+                            codId, num_letti, ponte, prezzo, num_animali = line
+                            cabina = Animali(codId, num_letti, ponte, int(prezzo), int(num_animali), 'Disponibile')
                         else:
-                            cabina = Deluxe(dato for dato in line)
+                            codId, num_letti, ponte, prezzo, tipo = line
+                            cabina = Deluxe(codId, num_letti, ponte, int(prezzo), tipo, 'Disponibile')
 
-                    cabina.aumenta_prezzo()
+                        cabina.aumenta_prezzo()
 
-                    else:
-                        cabina = Cabina(dato for dato in line)
+                    else :
+                        codId, num_letti, ponte, prezzo = line
+                        cabina = Cabina(codId, num_letti, ponte, int(prezzo), 'Disponibile')
 
-                    self._cabine.append(cabina)
+                    self.cabine.append(cabina)
 
 
     def assegna_passeggero_a_cabina(self, codice_cabina, codice_passeggero):
         """Associa una cabina a un passeggero"""
-        # TODO
+
+        check = False
+        prenotazione = []
+        for cabina in self.cabine:
+            if cabina.codId == codice_cabina and cabina.disponibilita == 'Disponibile':
+                prenotazione.append(cabina)
+                cabina.disponibilita = 'Non disponibile'
+                break
+
+        for passeggero in self.passeggeri:
+            if passeggero.codId == codice_passeggero and passeggero.libero :
+                prenotazione.append(passeggero)
+                passeggero.libero = False
+                break
+
+        if len(prenotazione) == 2:
+            check = True
+            self.prenotazioni.append(prenotazione)
+
+        return check
 
     def cabine_ordinate_per_prezzo(self):
         """Restituisce la lista ordinata delle cabine in base al prezzo"""
-        # TODO
+
+        cabine_ordinate = sorted(self.cabine, key=lambda cabina: cabina.prezzo)
+
+        return cabine_ordinate
 
 
     def elenca_passeggeri(self):
