@@ -14,13 +14,12 @@ class Animali(Cabina):
                 f'{self.disponibilita} ')
 
     def __repr__(self):
-        return (f'{type(self).__name__} '
-                f'(codId={self.codId}, '
-                f'num_letti={self.num_letti}, '
-                f'ponte={self.ponte}, '
-                f'prezzo={self.prezzo}, '
-                f'num_animali={self.num_animali}, '
-                f'disponibilita={self.disponibilita})')
+        return (f'{self.codId}: {type(self).__name__} | '
+                f'{self.num_letti} letti - '
+                f'Ponte {self.ponte} - '
+                f'Prezzo {self.prezzo:.2f} - '
+                f'Max animali: {self.num_animali} - '
+                f'{self.disponibilita}')
 
     def aumenta_prezzo(self):
         self.prezzo = self.prezzo * (1 + 0.1 * self.num_animali)

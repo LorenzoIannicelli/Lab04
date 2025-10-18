@@ -14,9 +14,8 @@ class Cabina:
                 f'{self.disponibilita} ')
 
     def __repr__(self):
-        return (f'{type(self).__name__} '
-                f'(codId={self.codId}, '
-                f'num_letti={self.num_letti}, '
-                f'ponte={self.ponte}, '
-                f'prezzo={self.prezzo}, '
-                f'disponibilita={self.disponibilita})')
+        return (f'{self.codId}: {type(self).__name__} | '
+                f'{self.num_letti} letti - '
+                f'Ponte {self.ponte} - '
+                f'Prezzo {self.prezzo:.2f} - '
+                f'{self.disponibilita}')

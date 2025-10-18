@@ -35,16 +35,16 @@ class Crociera:
                     if len(line) == 5:
                         if line[-1].isdigit():
                             codId, num_letti, ponte, prezzo, num_animali = line
-                            cabina = Animali(codId, num_letti, ponte, int(prezzo), int(num_animali), 'Disponibile')
+                            cabina = Animali(codId, num_letti, ponte, float(prezzo), int(num_animali), 'Disponibile')
                         else:
                             codId, num_letti, ponte, prezzo, tipo = line
-                            cabina = Deluxe(codId, num_letti, ponte, int(prezzo), tipo, 'Disponibile')
+                            cabina = Deluxe(codId, num_letti, ponte, float(prezzo), tipo, 'Disponibile')
 
                         cabina.aumenta_prezzo()
 
                     else :
                         codId, num_letti, ponte, prezzo = line
-                        cabina = Cabina(codId, num_letti, ponte, int(prezzo), 'Disponibile')
+                        cabina = Cabina(codId, num_letti, ponte, float(prezzo), 'Disponibile')
 
                     self.cabine.append(cabina)
 
@@ -82,5 +82,15 @@ class Crociera:
 
     def elenca_passeggeri(self):
         """Stampa l'elenco dei passeggeri mostrando, per ognuno, la cabina a cui è associato, quando applicabile """
-        # TODO
 
+        for p in self.passeggeri:
+            found = False
+            print(p.__str__(), end=' ')
+            for pren in self.prenotazioni:
+                if p == pren[1] :
+                    print(pren[0].codId)
+                    found = True
+                    break
+
+            if not found:
+                print()
